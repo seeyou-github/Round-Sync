@@ -43,7 +43,7 @@ jobs:
         shell: bash
         run: |
           NDK_VERSION="$(grep -E '^de\.felixnuesse\.extract\.ndkVersion=' gradle.properties | cut -d'=' -f2)"
-          yes | sdkmanager --licenses
+          yes | sdkmanager --licenses > /dev/null || true
           sdkmanager "ndk;${NDK_VERSION}"
 
       - name: Build OSS release APK
