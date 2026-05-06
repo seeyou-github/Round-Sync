@@ -3,10 +3,6 @@
     <string name="pref_key_theme_old" translatable="false">pref_key_theme_mode</string>
     <string name="pref_key_theme" translatable="false">pref_key_theme</string>
     <string name="pref_key_wrap_filenames" translatable="false">pref_key_wrap_filenames</string>
-    <string name="pref_key_app_updates" translatable="false">pref_key_app_updates</string>
-    <string name="pref_key_app_update_dismiss_current_update" translatable="false">app_update_dismiss_current_update</string>
-    <string name="pref_key_app_updates_found_update_for_version" translatable="false">app_updates_found_update_for_version</string>
-    <string name="pref_key_app_updates_changelog" translatable="false">app_updates_changelog</string>
     <string name="pref_key_app_notification_reports" translatable="false">pref_key_app_notification_reports</string>
     <string name="pref_key_show_thumbnails" translatable="false">pref_key_show_thumbnails</string>
     <string name="pref_key_thumbnail_size_limit" translatable="false">thumbnail_max_size</string>

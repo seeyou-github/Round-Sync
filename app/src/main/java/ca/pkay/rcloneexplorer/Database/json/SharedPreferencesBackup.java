@@ -41,9 +41,6 @@ public class SharedPreferencesBackup {
         String newTheme = sharedPreferences.getString(context.getString(R.string.pref_key_theme), String.valueOf(oldTheme));
         boolean isWrapFilenames = sharedPreferences.getBoolean(context.getString(R.string.pref_key_wrap_filenames), true);
 
-        // Notifications
-        boolean appUpdates = sharedPreferences.getBoolean(context.getString(R.string.pref_key_app_updates), false);
-
         // Logging
         boolean useLogs = sharedPreferences.getBoolean(context.getString(R.string.pref_key_logs), false);
 
@@ -65,7 +62,6 @@ public class SharedPreferencesBackup {
         main.put("vcpGrantAll", vcpGrantAll);
         main.put("isDarkTheme", newTheme);
         main.put("isWrapFilenames", isWrapFilenames);
-        main.put("appUpdates", appUpdates);
         main.put("useLogs", useLogs);
 
         return main.toString();
@@ -112,9 +108,6 @@ public class SharedPreferencesBackup {
         editor.putString(context.getString(R.string.pref_key_theme), String.valueOf(valueForTheme));
 
         editor.putBoolean(context.getString(R.string.pref_key_wrap_filenames), jsonObject.getBoolean("isWrapFilenames"));
-
-        // Notifications
-        editor.putBoolean(context.getString(R.string.pref_key_app_updates), jsonObject.getBoolean("appUpdates"));
 
         // Logging
         editor.putBoolean(context.getString(R.string.pref_key_logs), jsonObject.getBoolean("useLogs"));
