@@ -2,6 +2,19 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlinx-serialization'
 
+def requestedAbi = project.findProperty('targetAbi')
+def supportedAbis = ['x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a']
+if (requestedAbi != null && !supportedAbis.contains(requestedAbi)) {
+    throw new GradleException("Unsupported targetAbi '${requestedAbi}'. Supported values: ${supportedAbis.join(', ')}")
+}
+def buildAbis = requestedAbi != null ? [requestedAbi] : supportedAbis
+def rcloneTaskByAbi = [
+    'armeabi-v7a': ':rclone:buildArm',
+    'arm64-v8a'  : ':rclone:buildArm64',
+    'x86'        : ':rclone:buildx86',
+    'x86_64'     : ':rclone:buildx64'
+]
+
 android {
     signingConfigs {
         release {
@@ -80,8 +93,8 @@ android {
         abi {
             enable true
             reset()
-            include 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
-            universalApk true
+            include(*buildAbis)
+            universalApk requestedAbi == null
         }
     }
 
@@ -135,7 +148,7 @@ android {
     }
 
     gradle.projectsEvaluated {
-        preBuild.dependsOn(':rclone:buildAll')
+        preBuild.dependsOn(requestedAbi != null ? rcloneTaskByAbi[requestedAbi] : ':rclone:buildAll')
     }
 
     namespace 'ca.pkay.rcloneexplorer'
