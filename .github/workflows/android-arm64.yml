@@ -2,9 +2,7 @@ name: Android ARM64 APK
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
+
 
 jobs:
   build-arm64-apk:
