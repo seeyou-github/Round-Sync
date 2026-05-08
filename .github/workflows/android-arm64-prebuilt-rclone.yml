@@ -2,6 +2,11 @@ name: Android ARM64 APK with Prebuilt rclone(1.74.0)
 
 on:
   workflow_dispatch:
+    inputs:
+      rclone_download_url:
+        description: 'Prebuilt rclone Android arm64 gzip URL'
+        required: false
+        default: 'https://beta.rclone.org/v1.74.0/testbuilds/rclone-android-21-armv8a.gz'
 
 jobs:
   build-arm64-apk:
@@ -24,19 +29,15 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install Android NDK
-        shell: bash
-        run: |
-          NDK_VERSION="$(grep -E '^de\.felixnuesse\.extract\.ndkVersion=' gradle.properties | cut -d'=' -f2)"
-          yes | sdkmanager --licenses > /dev/null || true
-          sdkmanager "ndk;${NDK_VERSION}"
-
       - name: Download prebuilt rclone
         shell: bash
+        env:
+          RCLONE_DOWNLOAD_URL: ${{ github.event.inputs.rclone_download_url || 'https://beta.rclone.org/v1.74.0/testbuilds/rclone-android-21-armv8a.gz' }}
         run: |
+          echo "Downloading prebuilt rclone from: ${RCLONE_DOWNLOAD_URL}"
           curl --fail --location --retry 3 \
             --output rclone/rclone-android-21-armv8a.gz \
-            https://beta.rclone.org/v1.74.0/testbuilds/rclone-android-21-armv8a.gz
+            "${RCLONE_DOWNLOAD_URL}"
           gzip -dc rclone/rclone-android-21-armv8a.gz > rclone/librclone.so
           chmod 755 rclone/librclone.so
           test -f rclone/librclone.so
